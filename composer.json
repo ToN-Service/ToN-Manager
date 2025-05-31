@@ -1,13 +1,13 @@
 {
-  "require": {
-    "ton-manager/ton-manager": "dev-main"
-  },
   "repositories": [
     {
       "type": "vcs",
       "url": "https://github.com/ToN-Service/ToN-Manager"
     }
   ],
+  "require": {
+    "ton-manager/ton-manager": "dev-main"
+  },
   "minimum-stability": "dev",
   "prefer-stable": true
 }
