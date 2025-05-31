@@ -1,64 +1,21 @@
-# TON Manager PHP Library
+# TON Manager - لوحة تحكم بملف واحد
 
-مكتبة PHP متقدمة لإدارة شبكة TON: إنشاء وإدارة المحافظ، معالجة المعاملات، والتكامل السهل مع TON.
-
----
-
-## المتطلبات
-
-- PHP 8.0 أو أحدث  
-- تثبيت إضافة intl (عادةً عبر الأمر: `apt install php-intl`)
-
----
-
-## التثبيت
-
-### إذا كانت المكتبة منشورة على Packagist (أنصحك بذلك):
+## التثبيت الأسهل
 
 ```bash
-composer require ton-manager/ton-manager
+wget https://raw.githubusercontent.com/ToN-Service/ToN-Manager/main/ToN-Manager.php -O ToN-Manager.php
 ```
 
-### إذا لم تنشرها بعد على Packagist (يمكن للمستخدم إضافة مستودع GitHub):
+أو ضعها على استضافتك ثم افتحها من المتصفح
+## بدائل
 
-1. أضف هذا إلى ملف `composer.json` الخاص بمشروعك:
-
-```json
-{
-  "require": {
-    "ton-manager/ton-manager": "dev-main"
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/ToN-Service/ToN-Manager"
-    }
-  ],
-  "minimum-stability": "dev",
-  "prefer-stable": true
-}
-```
-
-2. ثم نفذ:
 ```bash
-composer require ton-manager/ton-manager:dev-main
+git clone https://github.com/ToN-Service/ToN-Manager.git
+cd ToN-Manager
 ```
 
----
+أو
 
-## مثال للاستخدام
-
-```php
-require 'vendor/autoload.php';
-
-use TonManager\Wallet;
-
-$wallet = new Wallet(/* ... */);
-// استخدم الكلاس كما تريد
+```bash
+composer create-project ton-manager/ton-manager
 ```
-
----
-
-## الترخيص
-
-MIT - راجع ملف LICENSE.
