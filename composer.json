@@ -1,15 +1,6 @@
 {
   "name": "ton-manager/ton-manager",
-  "description": "لوحة تحكم متقدمة لإدارة شبكة TON، شبيهة بـ cPanel.",
+  "description": "لوحة تحكم TON بسيطة بملف واحد.",
   "type": "project",
-  "license": "MIT",
-  "require": {
-    "php": "^8.0",
-    "ext-intl": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "TonManager\\": "src/"
-    }
-  }
+  "license": "MIT"
 }
