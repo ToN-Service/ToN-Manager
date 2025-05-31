@@ -11,7 +11,6 @@ wget https://raw.githubusercontent.com/ToN-Service/ToN-Manager/main/ToN-Manager.
 
 ```bash
 git clone https://github.com/ToN-Service/ToN-Manager.git
-cd ToN-Manager
 ```
 
 أو
