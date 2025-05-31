@@ -1,13 +1,20 @@
 {
+  "name": "ton-manager/ton-manager",
+  "description": "The package name found for your repository is: ton-manager/ton-manager, press Submit to confirm.",
+  "require": {
+    "ton-manager/ton-manager": "dev-main"
+  },
   "repositories": [
     {
       "type": "vcs",
       "url": "https://github.com/ToN-Service/ToN-Manager"
     }
   ],
-  "require": {
-    "ton-manager/ton-manager": "dev-main"
-  },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "YourProject\\": "src/"
+    }
+  }
 }
