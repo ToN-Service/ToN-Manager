@@ -1,7 +1,7 @@
 {
   "name": "ton-manager/ton-manager",
-  "description": "مكتبة PHP متقدمة لإدارة شبكة TON: إنشاء وإدارة المحافظ، معالجة المعاملات، والتكامل السهل مع TON.",
-  "type": "library",
+  "description": "لوحة تحكم متقدمة لإدارة شبكة TON، شبيهة بـ cPanel.",
+  "type": "project",
   "license": "MIT",
   "require": {
     "php": "^8.0",
