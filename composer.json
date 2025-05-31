@@ -1,13 +1,15 @@
 {
+  "name": "ton-manager/ton-manager",
+  "description": "مكتبة PHP متقدمة لإدارة شبكة TON: إنشاء وإدارة المحافظ، معالجة المعاملات، والتكامل السهل مع TON.",
+  "type": "library",
+  "license": "MIT",
   "require": {
-    "ton-manager/ton-manager": "dev-main"
+    "php": "^8.0",
+    "ext-intl": "*"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/ToN-Service/ToN-Manager"
+  "autoload": {
+    "psr-4": {
+      "TonManager\\": "src/"
     }
-  ],
-  "minimum-stability": "dev",
-  "prefer-stable": true
+  }
 }
