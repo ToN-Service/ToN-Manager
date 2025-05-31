@@ -1,11 +1,11 @@
 {
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/ToN-Service/ToN-Manager"
+  "name": "ton-manager/ton-manager",
+  "description": "A comprehensive PHP library for managing TON projects. Easily interact with the TON network, manage wallets and transactions, and integrate TON features into your applications quickly and securely.",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "TonManager\\": "src/"
     }
-  ],
-  "require": {
-    "ton-manager/ton-manager": "dev-main"
-  }
+  },
+  "require": {}
 }
