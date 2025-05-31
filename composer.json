@@ -1,20 +1,11 @@
 {
   "name": "ton-manager/ton-manager",
-  "description": "The package name found for your repository is: ton-manager/ton-manager, press Submit to confirm.",
-  "require": {
-    "ton-manager/ton-manager": "dev-main"
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/ToN-Service/ToN-Manager"
-    }
-  ],
-  "minimum-stability": "dev",
-  "prefer-stable": true,
+  "description": "مكتبة PHP متقدمة لإدارة شبكة TON، تتيح إنشاء وإدارة المحافظ، معالجة المعاملات، والتكامل السهل مع خدمات TON عبر واجهات برمجية آمنة وسهلة الاستخدام.",
+  "type": "library",
   "autoload": {
     "psr-4": {
-      "YourProject\\": "src/"
+      "TonManager\\": "src/"
     }
-  }
+  },
+  "require": {}
 }
