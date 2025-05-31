@@ -1,8 +1,8 @@
 {
   "name": "ton-manager/ton-manager",
   "description": "مكتبة PHP متقدمة لإدارة شبكة TON، تتيح إنشاء وإدارة المحافظ، معالجة المعاملات، والتكامل السهل مع خدمات TON عبر واجهات برمجية آمنة وسهلة الاستخدام.",
-  "license": "MIT"
   "type": "library",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "TonManager\\": "src/"
