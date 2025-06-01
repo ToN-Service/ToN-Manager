@@ -1,20 +1,16 @@
 <?php
 session_start();
 
-/* ---------- 1. تسجيل الدخول ---------- */
 $auth_users = [
-    'admin' => '123456',
-    // أضف مستخدمين آخرين إذا أردت: 'user2' => 'pass2'
+    'admin' => 'admin123',
 ];
 
-// تسجيل الخروج
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: ?');
     exit;
 }
 
-// إذا لم يسجل الدخول بعد، أظهر فورم تسجيل الدخول
 if (!isset($_SESSION['auth_ok']) || $_SESSION['auth_ok'] !== true) {
     $error = '';
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['password'])) {
@@ -89,9 +85,7 @@ if (!isset($_SESSION['auth_ok']) || $_SESSION['auth_ok'] !== true) {
     exit;
 }
 
-/* ---------- نهاية تسجيل الدخول ---------- */
 
-// 1. الإعدادات ومسار المجلد الحالي
 $startDir = __DIR__;
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -101,9 +95,7 @@ if (strpos($path, $startDir) !== 0) {
     $dir = '';
 }
 
-// 2. عمليات الملفات (رفع، مجلد جديد، حذف، حذف جماعي، تعديل، إعادة تسمية، فتح ملفات)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // رفع ملفات (يدعم السحب والإفلات)
     if (isset($_FILES['uploadfile'])) {
         foreach ($_FILES['uploadfile']['tmp_name'] as $i => $tmp) {
             $name = $_FILES['uploadfile']['name'][$i];
@@ -114,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location:?dir=" . urlencode($dir));
         exit;
     }
-    // مجلد جديد أو ملف جديد
     if (isset($_POST['create_item_type']) && isset($_POST['create_item_name'])) {
         $itemType = $_POST['create_item_type'];
         $itemName = trim(preg_replace('/[^\p{L}\p{N}_\-\.\s]/u','',$_POST['create_item_name']));
@@ -126,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location:?dir=" . urlencode($dir));
         exit;
     }
-    // حذف ملف/مجلد فردي
     if (isset($_POST['delete']) && isset($_POST['target'])) {
         $target = basename($_POST['target']);
         $targetPath = $path . '/' . $target;
@@ -146,7 +136,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location:?dir=" . urlencode($dir));
         exit;
     }
-    // حذف جماعي
     if (isset($_POST['delete_selected']) && !empty($_POST['selected_files'])) {
         foreach ($_POST['selected_files'] as $target) {
             $target = basename($target);
@@ -168,7 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location:?dir=" . urlencode($dir));
         exit;
     }
-    // تعديل ملف نصي
     if (isset($_POST['editfile']) && isset($_POST['editfilename'])) {
         $filename = basename($_POST['editfilename']);
         $filepath = $path . '/' . $filename;
@@ -178,7 +166,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location:?dir=" . urlencode($dir) . "&sel=" . urlencode($filename));
         exit;
     }
-    // إعادة تسمية ملف أو مجلد
     if (isset($_POST['renamefile']) && isset($_POST['oldname']) && isset($_POST['newname'])) {
         $oldname = basename($_POST['oldname']);
         $newname = trim(preg_replace('/[^\p{L}\p{N}_\-\.\s]/u','',$_POST['newname']));
@@ -194,7 +181,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// 3. قراءة الملفات والمجلدات
 $entries = array_diff(scandir($path), ['.', '..']);
 $files = [];
 $folders = [];
@@ -225,12 +211,10 @@ function formatSize($size) {
     while ($size >= 1024 && $i < count($units)-1) { $size /= 1024; $i++; }
     return round($size, ($i>1?1:0)) . ' ' . $units[$i];
 }
-// دالة أيقونة الملف متقدمة (برمجي/صور/ميديا)
 function fileIcon($item) {
     if ($item['is_dir']) return '<i class="fas fa-folder text-yellow-400"></i>';
     $ext = strtolower($item['ext']);
     $icons = [
-        // لغات برمجة
         'php'    => '<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/php.svg" class="w-5" alt="PHP">',
         'js'     => '<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/javascript.svg" class="w-5" alt="JavaScript">',
         'ts'     => '<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/typescript.svg" class="w-5" alt="TypeScript">',
@@ -255,7 +239,6 @@ function fileIcon($item) {
         'yaml'   => '<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/yaml.svg" class="w-5" alt="YAML">',
         'sql'    => '<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mysql.svg" class="w-5" alt="SQL">',
         'md'     => '<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/markdown.svg" class="w-5" alt="Markdown">',
-        // غير برمجي
         'pdf'    => '<img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/pdf.svg" class="w-5" alt="">',
         'doc'    => '<img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/microsoftword.svg" class="w-5" alt="">',
         'docx'   => '<img src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/microsoftword.svg" class="w-5" alt="">',
@@ -306,7 +289,6 @@ if (isset($_GET['sel'])) {
 if (!$selected && count($files)) $selected = $files[0];
 if (!$selected && count($folders)) $selected = $folders[0];
 
-// هل نحرر ملف؟
 $is_editing = false;
 $edit_content = "";
 if (isset($_GET['edit']) && $_GET['edit']) {
@@ -317,7 +299,6 @@ if (isset($_GET['edit']) && $_GET['edit']) {
         $edit_content = file_get_contents($edit_path);
     }
 }
-// هل نعيد تسمية ملف؟
 $is_renaming = false;
 $rename_oldname = "";
 if (isset($_GET['rename']) && $_GET['rename']) {
@@ -325,7 +306,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
     $rename_oldname = basename($_GET['rename']);
 }
 ?>
-<!-- ... أكمل كود لوحة التحكم كما هو ... -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -371,20 +351,16 @@ if (isset($_GET['rename']) && $_GET['rename']) {
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
-    <!-- Header -->
     <header class="w-full bg-white border-b px-2 md:px-6 py-2 sticky top-0 z-20">
         <div class="flex items-center justify-between flex-row-reverse">
-            <!-- اسم اللوحة مع الأيقونة (على اليمين) -->
             <div class="flex items-center gap-2">
                 <span class="font-bold text-lg">ToN Manager</span>
                 <i class="fas fa-folder-open text-blue-700 text-2xl"></i>
             </div>
-            <!-- زر الهامبرغر على اليسار -->
             <button class="text-gray-500 text-xl md:hidden" id="openSidebarBtn" type="button">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
-        <!-- خانة البحث سطر منفصل بالكامل تحت الشعار والهامبرغر -->
         <form method="get" class="w-full flex justify-center items-center mt-2" id="liveSearchForm" autocomplete="off">
             <input type="hidden" name="dir" value="<?=htmlspecialchars($dir)?>">
             <div class="relative w-full max-w-lg">
@@ -403,7 +379,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
         </form>
     </header>
     <main class="flex flex-1 overflow-hidden flex-wrap">
-        <!-- تفاصيل الملف الجانبي (ديسكتوب فقط) -->
         <aside id="detailsPanelDesktop" class="w-80 bg-white border-l px-8 py-6 flex-shrink-0 flex flex-col scrollbar-thin overflow-y-auto hidden lg:flex">
             <?php if ($selected): ?>
                 <div class="flex flex-col items-center mb-6">
@@ -487,11 +462,9 @@ if (isset($_GET['rename']) && $_GET['rename']) {
                 <div class="text-center text-gray-400 mt-16">لا يوجد ملفات</div>
             <?php endif; ?>
         </aside>
-        <!-- تفاصيل الملف الجانبي (موبايل فقط) -->
         <aside id="detailsPanelMobile" class="fixed bottom-0 left-0 right-0 bg-white border-t z-40 flex flex-col lg:hidden px-0 py-0" style="display:<?=($selected ? 'flex':'none')?>;">
             <?php if ($selected): ?>
                 <div class="flex flex-row w-full">
-                    <!-- فتح -->
                     <a href="<?= $selected['is_dir'] ? '?dir='.urlencode($selected['path']) : htmlspecialchars($selected['path']) ?>"
                     <?= $selected['is_dir'] ? '' : 'target="_blank"' ?>
                     class="flex-1 py-2 flex flex-col items-center justify-center border-l last:border-l-0 text-blue-600 text-base font-bold"
@@ -499,7 +472,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
                         <i class="fas fa-folder-open mb-1 text-xl"></i>
                         فتح
                     </a>
-                    <!-- تنزيل -->
                     <?php if (!$selected['is_dir']): ?>
                     <a href="<?=htmlspecialchars($selected['path'])?>" download
                     class="flex-1 py-2 flex flex-col items-center justify-center border-l last:border-l-0 text-blue-600 text-base font-bold"
@@ -508,7 +480,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
                         تنزيل
                     </a>
                     <?php endif; ?>
-                    <!-- تعديل -->
                     <?php if (!$selected['is_dir'] && in_array($selected['ext'],['txt','md','log','json','ini','conf','html','css','js','php'])): ?>
                     <a href="?dir=<?=urlencode($dir)?>&edit=<?=urlencode($selected['name'])?>"
                     class="flex-1 py-2 flex flex-col items-center justify-center border-l last:border-l-0 text-gray-700 text-base font-bold"
@@ -517,7 +488,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
                         تعديل
                     </a>
                     <?php endif; ?>
-                    <!-- حذف -->
                     <form method="post" class="flex-1" onsubmit="return confirmDelete('هل أنت متأكد من حذف هذا الملف أو المجلد؟');" style="display:inline;">
                         <input type="hidden" name="target" value="<?=htmlspecialchars($selected['name'])?>">
                         <button type="submit" name="delete"
@@ -530,9 +500,7 @@ if (isset($_GET['rename']) && $_GET['rename']) {
                 </div>
             <?php endif; ?>
         </aside>
-        <!-- المنطقة الرئيسية -->
         <section class="flex-1 flex flex-col bg-white border-x px-0 scrollbar-thin overflow-y-auto w-full">
-            <!-- الأعلى (breadcrumb + أزرار) -->
             <div class="flex flex-wrap items-center justify-between px-2 md:px-6 py-4 border-b bg-white gap-y-2">
                 <nav class="text-gray-500 text-sm flex items-center gap-1 flex-wrap">
                     <a href="?">الرئيسية</a>
@@ -561,7 +529,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
                         </button>
                 </div>
             </div>
-            <!-- قائمة الملفات -->
             <div class="flex-1 overflow-x-auto px-1 md:px-2 py-2 scrollbar-thin">
                 <table class="w-full text-sm bg-white" id="files-table">
                     <thead>
@@ -615,7 +582,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
             </div>
             </form>
         </section>
-        <!-- الشريط الجانبي الأيمن (ديسكتوب) -->
         <aside class="w-72 bg-white border-r px-6 py-6 flex-shrink-0 flex flex-col sidebar-active scrollbar-thin overflow-y-auto hidden lg:flex" id="sidebarDesktop">
             <nav class="flex-1">
                 <ul class="space-y-2 text-sm font-medium">
@@ -657,7 +623,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
                         <div class="h-full bg-blue-500" style="width:<?=intval($used/$total*100)?>%"></div>
                     </div>
                 </div>
-                <!-- زر تسجيل الخروج -->
                 <div class="mt-8">
                     <a href="?logout=1" class="flex items-center gap-2 bg-red-100 hover:bg-red-200 text-red-700 px-3 py-2 rounded-md text-sm font-bold w-full justify-center transition">
                         <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
@@ -665,7 +630,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
                 </div>
             </nav>
         </aside>
-        <!-- الشريط الجانبي للأجهزة الصغيرة -->
         <aside id="sidebarMobile" class="sidebar-active fixed top-0 right-0 z-50 bg-white w-72 max-w-full h-full shadow-2xl border-l transition-transform duration-200 translate-x-full">
             <div class="flex justify-between items-center px-4 py-4 border-b">
                 <span class="font-bold text-lg flex items-center gap-2"><i class="fas fa-folder-open text-blue-700"></i> ToN Manager</span>
@@ -711,7 +675,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
                         <div class="h-full bg-blue-500" style="width:<?=intval($used/$total*100)?>%"></div>
                     </div>
                 </div>
-                <!-- زر تسجيل الخروج للجوال -->
                 <div class="mt-8">
                     <a href="?logout=1" class="flex items-center gap-2 bg-red-100 hover:bg-red-200 text-red-700 px-3 py-2 rounded-md text-sm font-bold w-full justify-center transition">
                         <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
@@ -721,7 +684,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
         </aside>
     </main>
 
-    <!-- رفع صورة مصغرة -->
     <?php
     if (isset($_GET['thumb']) && $dir) {
         $img = $path.'/'.basename($_GET['thumb']);
@@ -735,7 +697,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
     }
     ?>
 
-    <!-- نوافذ منبثقة (رفع ملف / مجلد جديد) -->
     <div id="uploadModal" class="fixed inset-0 z-50 flex items-center justify-center modal-bg hidden">
         <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-md relative flex flex-col items-center justify-center">
             <button class="absolute left-4 top-4 text-gray-400 hover:text-red-500 text-lg close-modal" title="إغلاق"><i class="fas fa-times"></i></button>
@@ -779,7 +740,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
                 </form>
             </div>
         </div>
-    <!-- نافذة إعادة التسمية -->
     <?php if ($is_renaming): ?>
     <div id="renameModal" class="fixed inset-0 items-center justify-center z-50 modal-bg flex">
         <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-sm relative">
@@ -797,7 +757,6 @@ if (isset($_GET['rename']) && $_GET['rename']) {
     </div>
     <script>document.body.style.overflow = "hidden";</script>
     <?php endif; ?>
-    <!-- تعديل ملف -->
     <?php if ($is_editing): ?>
     <div id="editModal" class="fixed inset-0 items-center justify-center z-50 modal-bg flex">
         <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl relative">
@@ -842,12 +801,10 @@ function updateDeleteSelectedBtn() {
 updateDeleteSelectedBtn();
 document.getElementById('files-table').addEventListener('change', updateDeleteSelectedBtn);
 
-// تأكيدات الحذف
 function confirmDelete(msg) {
     return confirm(msg);
 }
 
-// رفع بالدراغ & دروب مباشرة
 function handleDrop(event) {
     event.preventDefault();
     let dt = event.dataTransfer;
@@ -867,7 +824,6 @@ function autoSubmitUpload(input) {
     }
 }
 
-// بحث مباشر بدون انتر, سلس (لا يقطع فورا)
 const searchBox = document.getElementById('searchBox');
 let searchTimeout = null;
 let prevValue = searchBox.value;
@@ -888,7 +844,6 @@ if (searchBox) {
     });
 }
 
-// Mobile sidebar (hamburger)
 const openSidebarBtn = document.getElementById('openSidebarBtn');
 const sidebarMobile = document.getElementById('sidebarMobile');
 if (openSidebarBtn && sidebarMobile) {
