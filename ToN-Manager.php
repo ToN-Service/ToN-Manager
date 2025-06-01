@@ -2,7 +2,7 @@
 session_start();
 
 $auth_users = [
-    'admin' => 'admin123',
+    'admin' => '123456',
 ];
 
 if (isset($_GET['logout'])) {
@@ -51,12 +51,47 @@ if (!isset($_SESSION['auth_ok']) || $_SESSION['auth_ok'] !== true) {
                 line-height: 1;
                 user-select: none;
             }
+            .toN-title {
+                font-family: 'Segoe UI', 'Arial', sans-serif;
+                font-weight: 700;
+                font-size: 32px;
+                fill: #2D3748;
+                letter-spacing: 1px;
+            }
+            .toN-sub {
+                font-family: 'Segoe UI', 'Arial', sans-serif;
+                font-weight: 400;
+                font-size: 18px;
+                fill: #4FD1C5;
+                letter-spacing: 2.5px;
+            }
+            .circle-bg {
+                fill: #4FD1C5;
+                opacity: 0.13;
+            }
+            .circle-main {
+                fill: #319795;
+            }
+            .check {
+                stroke: #fff;
+                stroke-width: 2.5;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                fill: none;
+            }
         </style>
     </head>
     <body class="min-h-screen flex flex-col justify-center items-center">
         <div class="flex-1 flex justify-center items-center w-full">
             <form method="post" class="bg-white rounded-xl shadow-xl px-8 pt-7 pb-6 w-full max-w-md flex flex-col items-center">
-                <div class="logo-ToN-Manager select-none">ToN Manager</div>
+                <svg width="220" height="60" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="220" height="60" rx="14" fill="#fff"/>
+                    <circle class="circle-bg" cx="32" cy="30" r="24"/>
+                    <circle class="circle-main" cx="32" cy="30" r="18"/>
+                    <path class="check" d="M24 30l7 7 11-13"/>
+                    <text class="toN-title" x="65" y="36">ToN</text>
+                    <text class="toN-sub" x="65" y="55">Manager</text>
+                    </svg>
                 <div class="text-gray-700 text-xl font-normal mb-5">MY File Manager</div>
                 <hr class="w-full mb-6 border-gray-200">
                 <?php if ($error): ?>
