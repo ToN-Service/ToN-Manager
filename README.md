@@ -1,5 +1,10 @@
 # TON Manager - لوحة تحكم بملف واحد
 
+## موقع اللوحة
+
+```bash
+https://ton-service.info/ToN-Service/
+```
 ## التثبيت الأسهل
 
 ```bash
