@@ -2,7 +2,7 @@
 session_start();
 
 $auth_users = [
-    'admin' => '123456',
+    'admin' => 'admin123', // اسم المستخدم => كلمة المرور
 ];
 
 if (isset($_GET['logout'])) {
