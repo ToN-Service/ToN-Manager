@@ -27,9 +27,11 @@
    ```bash
    git clone https://github.com/ToN-Service/ToN-Manager.git
 2. انسخ الملف الى مجلد السيرفر
-cp -r ToN-Manager /var/www/html/
+   ```bash
+   cp -r ToN-Manager /var/www/html/
 3. الدخول الى متصفك
-https://Your-Domain/ToN-Manager.php
+   ```bash
+   https://Your-Domain/ToN-Manager.php
 
 ---
 
@@ -62,3 +64,8 @@ A lightweight and simple file management panel that runs directly on the server 
    ```bash
    git clone https://github.com/ToN-Service/ToN-Manager.git
 2. Copy the files to your server directory:
+   ```bash
+   cp -r ToN-Manager /var/www/html/
+3. Open your browser and go to:
+   ```bash
+   https://Your-Domain/ToN-Manager.php
